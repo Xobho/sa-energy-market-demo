@@ -1,2 +1,139 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SA Energy Market Platform — v0.1 Demo</title><link rel="stylesheet" href="demo.css"></head><body><header class="hero"><div><div class="eyebrow">Independent research prototype</div><h1>SA Energy Market Platform</h1><p>See how a large electricity buyer could forecast demand, identify a short position, prepare a SAWEM-style bid and view a simulated market-clearing result.</p></div><div class="version">v0.1 demo</div></header><main><section class="notice"><strong>Important:</strong> This is an independent simulation, not an NTCSA/SAWEM production interface. Official API field names, clearing rules and settlement processes will be mapped when the NTCSA OpenAPI specification is obtained.</section><section class="cards" id="cards"></section><section class="panel"><div class="panel-head"><div><h2>ABC Platinum Mine — tomorrow's position</h2><p>Demand minus contracted supply and own generation.</p></div><label>Hour <select id="hourSelect"></select></label></div><div class="position-grid"><div class="metric"><span>Forecast demand</span><strong id="demand"></strong></div><div class="metric"><span>Contracted supply</span><strong id="contracted"></strong></div><div class="metric"><span>Own generation</span><strong id="ownGen"></strong></div><div class="metric highlight"><span>Open position</span><strong id="openPosition"></strong></div></div><div class="decision" id="decision"></div></section><section class="two-col"><section class="panel"><h2>Available seller stack</h2><p>Illustrative offers for the selected hour, ordered cheapest first.</p><div id="sellerStack"></div></section><section class="panel"><h2>Recommended bid</h2><div id="bidCard"></div><button id="clearBtn">Simulate market clearing</button></section></section><section class="panel"><h2>Market result</h2><div id="result"></div></section><section class="panel"><h2>24-hour position overview</h2><div class="scroll"><table><thead><tr><th>Hour</th><th>Demand</th><th>Contracted</th><th>Own Gen</th><th>Open position</th><th>Status</th></tr></thead><tbody id="positionTable"></tbody></table></div></section><section class="footer-note"><strong>What the prototype is proving:</strong> a participant-facing platform can combine customer demand, existing contracts and generation forecasts to determine what needs to be bought or sold before entering the formal market.</section></main><script src="demo.js"></script></body></html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SA Energy Market Platform — Product Prototype</title>
+  <link rel="stylesheet" href="demo.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">SA</div>
+      <div>
+        <strong>SA Energy Market Platform</strong>
+        <span>Participant Operating Layer for SAWEM</span>
+      </div>
+    </div>
+    <div class="top-actions">
+      <span class="live-dot">Prototype</span>
+      <span class="version">v0.2</span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-copy">
+      <div class="eyebrow">From market readiness to daily trading operations</div>
+      <h1>Know your electricity position before the market opens.</h1>
+      <p>Forecast demand, account for bilateral supply, identify exposure, prepare bids, monitor market outcomes and estimate imbalance cost — from one operating cockpit.</p>
+      <div class="hero-tags">
+        <span>Large Power Users</span><span>Generators</span><span>Traders</span><span>BRPs</span>
+      </div>
+    </div>
+    <div class="hero-flow">
+      <div><span>01</span><strong>Forecast</strong></div>
+      <div><span>02</span><strong>Position</strong></div>
+      <div><span>03</span><strong>Bid</strong></div>
+      <div><span>04</span><strong>Clear</strong></div>
+      <div><span>05</span><strong>Reconcile</strong></div>
+    </div>
+  </section>
+
+  <main>
+    <section class="notice"><strong>Independent simulation:</strong> this demo is not an NTCSA/SAWEM production interface. Official API fields, clearing rules and settlement mechanics will be mapped once the NTCSA OpenAPI specification is available.</section>
+
+    <section class="section-head">
+      <div><div class="kicker">Executive overview</div><h2>ABC Platinum Mine — tomorrow's energy position</h2></div>
+      <div class="controls compact">
+        <label>Selected hour<select id="hourSelect"></select></label>
+      </div>
+    </section>
+
+    <section class="kpi-grid">
+      <article class="kpi"><span>24h forecast demand</span><strong id="totalDemand"></strong><small>Tomorrow</small></article>
+      <article class="kpi"><span>Contracted cover</span><strong id="coveragePct"></strong><small>Before market purchases</small></article>
+      <article class="kpi attention"><span>Open market requirement</span><strong id="totalOpen"></strong><small>Across uncovered hours</small></article>
+      <article class="kpi"><span>Estimated market spend</span><strong id="estimatedSpend"></strong><small>Using simulated clearing</small></article>
+      <article class="kpi"><span>Hours requiring action</span><strong id="shortHours"></strong><small>Out of 24 trading periods</small></article>
+    </section>
+
+    <section class="dashboard-grid">
+      <section class="panel chart-panel">
+        <div class="panel-head"><div><h3>24-hour exposure curve</h3><p>Demand, secured supply and residual market requirement.</p></div><div class="legend"><span class="l-demand">Demand</span><span class="l-cover">Secured supply</span><span class="l-open">Open position</span></div></div>
+        <div id="positionChart" class="chart"></div>
+      </section>
+
+      <section class="panel selected-panel">
+        <div class="panel-head"><div><h3>Selected trading period</h3><p id="selectedHourLabel"></p></div><span id="statusPill" class="pill"></span></div>
+        <div class="position-grid">
+          <div class="metric"><span>Forecast demand</span><strong id="demand"></strong></div>
+          <div class="metric"><span>Contracted supply</span><strong id="contracted"></strong></div>
+          <div class="metric"><span>Own generation</span><strong id="ownGen"></strong></div>
+          <div class="metric highlight"><span>Open position</span><strong id="openPosition"></strong></div>
+        </div>
+        <div class="decision" id="decision"></div>
+      </section>
+    </section>
+
+    <section class="section-head"><div><div class="kicker">Trading cockpit</div><h2>Turn exposure into a market action</h2></div></section>
+    <section class="three-col">
+      <section class="panel">
+        <h3>Seller stack</h3><p>Illustrative offers for the selected hour, ordered cheapest first.</p>
+        <div id="sellerStack"></div>
+      </section>
+
+      <section class="panel">
+        <h3>Bid recommendation</h3><p>Prepared from the customer's uncovered position and price policy.</p>
+        <div id="bidCard"></div>
+        <button id="clearBtn">Simulate market clearing</button>
+      </section>
+
+      <section class="panel">
+        <h3>Market result</h3><p>What the operating team needs immediately after clearing.</p>
+        <div id="result"><div class="empty-state">Run the clearing simulation to populate the result.</div></div>
+      </section>
+    </section>
+
+    <section class="section-head"><div><div class="kicker">Post-market operations</div><h2>Reconcile schedule vs actual consumption</h2></div></section>
+    <section class="two-col settlement-layout">
+      <section class="panel">
+        <h3>Imbalance estimator</h3><p>Explore how operational deviation could translate into imbalance exposure.</p>
+        <div class="form-grid">
+          <label>Scheduled energy (MWh)<input id="scheduledInput" type="number" step="0.1" value="35"></label>
+          <label>Actual meter energy (MWh)<input id="actualInput" type="number" step="0.1" value="37.5"></label>
+          <label>Illustrative imbalance price (R/MWh)<input id="imbalancePriceInput" type="number" step="10" value="1300"></label>
+        </div>
+        <button id="reconcileBtn" class="secondary">Calculate imbalance</button>
+      </section>
+      <section class="panel">
+        <h3>Reconciliation outcome</h3>
+        <div id="reconciliationResult" class="settlement-result"></div>
+      </section>
+    </section>
+
+    <section class="section-head"><div><div class="kicker">Platform potential</div><h2>What this could become</h2><p class="section-copy">The prototype currently demonstrates one buyer workflow. The commercial product expands this into a full operating layer for participants.</p></div></section>
+    <section class="module-grid">
+      <article><span>01</span><h3>Data Integration</h3><p>ERP, SCADA, meters, PPAs, weather, production plans and finance.</p></article>
+      <article><span>02</span><h3>Forecasting</h3><p>Demand, generation and renewable availability forecasts by trading period.</p></article>
+      <article><span>03</span><h3>Portfolio & Position</h3><p>Combine contracts, own generation, batteries and market positions in one view.</p></article>
+      <article><span>04</span><h3>Bid Operations</h3><p>Prepare, validate, approve and eventually submit market bids through an adapter.</p></article>
+      <article><span>05</span><h3>Risk & Collateral</h3><p>Credit utilisation, bid limits, market exposure and operational alerts.</p></article>
+      <article><span>06</span><h3>Settlement & Reconciliation</h3><p>Meter vs schedule, imbalance analytics, expected invoices and financial reporting.</p></article>
+      <article><span>07</span><h3>Trader / Aggregator</h3><p>Future multi-customer portfolio management, subject to regulatory permissions.</p></article>
+      <article><span>08</span><h3>APIs & Intelligence</h3><p>Price curves, participant data, forecasting APIs and executive market intelligence.</p></article>
+    </section>
+
+    <section class="panel table-panel">
+      <div class="panel-head"><div><h3>24-hour position detail</h3><p>The operational record behind the dashboard.</p></div></div>
+      <div class="scroll"><table><thead><tr><th>Hour</th><th>Demand</th><th>Contracted</th><th>Own Gen</th><th>Open position</th><th>Status</th></tr></thead><tbody id="positionTable"></tbody></table></div>
+    </section>
+
+    <section class="closing">
+      <div><div class="kicker">Product thesis</div><h2>SAWEM runs the market. This platform runs the participant.</h2><p>The value is not simply submitting a bid. It is continuously knowing what to buy or sell, why, when, at what risk, and what happened after delivery.</p></div>
+      <div class="closing-badge">Research prototype<br><strong>v0.2</strong></div>
+    </section>
+  </main>
+
+  <script src="demo.js"></script>
+</body>
+</html>
