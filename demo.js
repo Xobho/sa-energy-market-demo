@@ -28,7 +28,8 @@ function switchView(view,{updateHash=true}={}){
 
 function initNavigation(){
   document.querySelectorAll('.nav-tab').forEach(btn=>{
-    btn.addEventListener('click',()=>{
+    btn.addEventListener('click',(event)=>{
+      event.preventDefault();
       switchView(btn.dataset.view);
     });
   });
