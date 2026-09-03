@@ -7,124 +7,75 @@
   <link rel="stylesheet" href="demo.css">
 </head>
 <body>
-  <header class="topbar">
-    <div class="brand"><div class="brand-mark">SA</div><div><strong>SA Energy Market Platform</strong><span>Buyer Energy Command Centre</span></div></div>
-    <nav class="nav-tabs"><span class="active">Dashboard</span><span>Portfolio</span><span>Market</span><span>Settlement</span><span>Risk</span></nav>
-    <div class="top-actions"><span class="live-dot">Mock data live</span><span class="version">v0.3</span></div>
-  </header>
+<header class="topbar">
+  <div class="brand"><div class="brand-mark">SA</div><div><strong>SA Energy Market Platform</strong><span>Buyer Energy Command Centre</span></div></div>
+  <nav class="nav-tabs" aria-label="Application navigation">
+    <button class="nav-tab active" data-view="dashboard">Dashboard</button>
+    <button class="nav-tab" data-view="portfolio">Portfolio / PPAs</button>
+    <button class="nav-tab" data-view="market">Market Bids</button>
+    <button class="nav-tab" data-view="settlement">Settlement</button>
+    <button class="nav-tab" data-view="risk">Risk</button>
+  </nav>
+  <div class="top-actions"><span class="live-dot">Mock data live</span><span class="version">v0.4</span></div>
+</header>
 
-  <main class="app-main">
-    <section class="buyer-head">
-      <div><div class="eyebrow dark">Large Power User / BRP view</div><h1>ABC Platinum Mine</h1><p>Tomorrow, 04 Sep 2026 · Day-Ahead operating view · All values below are fictional prototype data.</p></div>
-      <div class="buyer-badges"><span>MP-ABC-MINE</span><span>BRP-ABC-01</span><span class="healthy">Systems ready</span></div>
-    </section>
+<main class="app-main">
+  <section class="buyer-head">
+    <div><div class="eyebrow dark">Large Power User / BRP view</div><h1>ABC Platinum Mine</h1><p>Tomorrow, 04 Sep 2026 · Day-Ahead operating view · fictional prototype data.</p></div>
+    <div class="buyer-badges"><span>MP-ABC-MINE</span><span>BRP-ABC-01</span><span class="healthy">Systems ready</span></div>
+  </section>
 
+  <section class="app-view active" id="view-dashboard">
+    <div class="view-title"><div><span>Dashboard</span><h2>Energy position at a glance</h2></div><p>The buyer's daily command centre before the market opens.</p></div>
     <section class="alert-strip">
       <div class="alert-item critical"><strong>14 hours need action</strong><span>216 MWh total open position</span></div>
       <div class="alert-item warning"><strong>HE18 peak exposure</strong><span>33 MWh expected short</span></div>
       <div class="alert-item good"><strong>Collateral healthy</strong><span>38% utilised · R3.1m available</span></div>
       <div class="alert-item good"><strong>Forecast quality</strong><span>97.4% 30-day accuracy</span></div>
     </section>
-
-    <section class="kpi-grid buyer-kpis">
-      <article class="kpi"><span>24h forecast demand</span><strong id="totalDemand">1,527 MWh</strong><small>+4.8% vs yesterday</small></article>
-      <article class="kpi"><span>Already covered</span><strong id="coveragePct">85.9%</strong><small>PPAs + supplier + own generation</small></article>
-      <article class="kpi attention"><span>Open market requirement</span><strong id="totalOpen">216 MWh</strong><small>Needs procurement across 14 hours</small></article>
-      <article class="kpi"><span>Estimated DA market spend</span><strong id="estimatedSpend">R172,250</strong><small>Illustrative accepted volume</small></article>
-      <article class="kpi"><span>Energy budget status</span><strong>R1.84m</strong><small>74% of daily budget committed</small></article>
-      <article class="kpi"><span>Collateral utilisation</span><strong>38%</strong><small>R1.9m utilised of R5.0m</small></article>
+    <section class="kpi-grid">
+      <article class="kpi"><span>24h forecast demand</span><strong>1,527 MWh</strong><small>+4.8% vs yesterday</small></article>
+      <article class="kpi"><span>Already covered</span><strong>85.9%</strong><small>PPAs + supplier + own generation</small></article>
+      <article class="kpi attention"><span>Open market requirement</span><strong>216 MWh</strong><small>Across 14 hours</small></article>
+      <article class="kpi"><span>Estimated DA spend</span><strong>R172,250</strong><small>Illustrative cleared position</small></article>
+      <article class="kpi"><span>Collateral utilisation</span><strong>38%</strong><small>R1.9m of R5.0m</small></article>
     </section>
-
-    <section class="dashboard-grid buyer-grid">
-      <section class="panel chart-panel">
-        <div class="panel-head"><div><h3>Tomorrow's 24-hour energy position</h3><p>Forecast demand vs commercially secured energy. Red area is the amount the buyer still needs to cover.</p></div><div class="legend"><span class="l-demand">Demand</span><span class="l-cover">Secured</span><span class="l-open">Open</span></div></div>
-        <div id="positionChart" class="chart fallback-chart">
-          <svg viewBox="0 0 900 280" aria-label="Mock hourly energy position">
-            <line x1="36" y1="230" x2="888" y2="230" class="axis"/><line x1="36" y1="180" x2="888" y2="180" class="axis"/><line x1="36" y1="130" x2="888" y2="130" class="axis"/><line x1="36" y1="80" x2="888" y2="80" class="axis"/>
-            <path class="area-demand" d="M36 135 L73 138 L110 140 L147 140 L184 135 L221 125 L258 105 L295 85 L332 68 L369 55 L406 50 L443 45 L480 40 L517 35 L554 30 L591 25 L628 15 L665 5 L702 0 L739 10 L776 35 L813 68 L850 100 L888 120 L888 230 L36 230 Z"/>
-            <path class="area-open" d="M36 230 L73 230 L110 230 L147 230 L184 230 L221 230 L258 230 L295 222 L332 212 L369 203 L406 198 L443 195 L480 197 L517 192 L554 185 L591 178 L628 166 L665 148 L702 143 L739 153 L776 178 L813 205 L850 230 L888 230 L888 230 L36 230 Z"/>
-            <path class="line-demand" d="M36 135 L73 138 L110 140 L147 140 L184 135 L221 125 L258 105 L295 85 L332 68 L369 55 L406 50 L443 45 L480 40 L517 35 L554 30 L591 25 L628 15 L665 5 L702 0 L739 10 L776 35 L813 68 L850 100 L888 120"/>
-            <path class="line-cover" d="M36 145 L73 145 L110 145 L147 145 L184 145 L221 142 L258 138 L295 130 L332 122 L369 115 L406 110 L443 105 L480 102 L517 105 L554 110 L591 118 L628 130 L665 140 L702 145 L739 145 L776 145 L813 145 L850 145 L888 145"/>
-          </svg>
-        </div>
-      </section>
-
-      <section class="panel">
-        <div class="panel-head"><div><h3>Procurement mix</h3><p>How tomorrow's demand is currently covered.</p></div></div>
-        <div class="mix-row"><span>Solar PPA</span><div class="mix-bar"><i style="width:31%"></i></div><strong>480 MWh</strong></div>
-        <div class="mix-row"><span>Wind PPA</span><div class="mix-bar"><i style="width:24%"></i></div><strong>360 MWh</strong></div>
-        <div class="mix-row"><span>Existing supplier</span><div class="mix-bar"><i style="width:34%"></i></div><strong>516 MWh</strong></div>
-        <div class="mix-row"><span>Own solar</span><div class="mix-bar"><i style="width:9%"></i></div><strong>135 MWh</strong></div>
-        <div class="mix-row open"><span>Open / market</span><div class="mix-bar"><i style="width:14%"></i></div><strong>216 MWh</strong></div>
-        <div class="mini-note">Some sources overlap by trading period; this is an illustrative portfolio view.</div>
-      </section>
+    <section class="dashboard-grid">
+      <article class="panel chart-panel"><div class="panel-head"><div><h3>Tomorrow's 24-hour energy position</h3><p>Demand vs secured energy. Red bars show residual market requirement.</p></div></div><div class="hour-bars" id="hourBars"></div></article>
+      <article class="panel"><h3>Procurement mix</h3><p>How tomorrow's energy is covered.</p><div class="mix-row"><span>Solar PPA</span><div class="mix-bar"><i style="width:31%"></i></div><strong>480</strong></div><div class="mix-row"><span>Wind PPA</span><div class="mix-bar"><i style="width:24%"></i></div><strong>360</strong></div><div class="mix-row"><span>Supplier</span><div class="mix-bar"><i style="width:34%"></i></div><strong>516</strong></div><div class="mix-row"><span>Own solar</span><div class="mix-bar"><i style="width:9%"></i></div><strong>135</strong></div><div class="mix-row open"><span>Open / market</span><div class="mix-bar"><i style="width:14%"></i></div><strong>216</strong></div></article>
     </section>
+    <section class="panel selected-panel"><div class="panel-head"><div><h3>Peak period · HE18</h3><p>17:00–18:00</p></div><span class="pill short">SHORT</span></div><div class="position-grid four-up"><div class="metric"><span>Demand</span><strong>90 MWh</strong></div><div class="metric"><span>Contracted</span><strong>55 MWh</strong></div><div class="metric"><span>Own generation</span><strong>2 MWh</strong></div><div class="metric highlight"><span>Open position</span><strong>33 MWh</strong></div></div><div class="decision short">Action required: procure 33 MWh for HE18 before gate closure.</div></section>
+  </section>
 
-    <section class="section-head"><div><div class="kicker">Action centre</div><h2>What the energy team needs to do next</h2></div><div class="controls compact"><label>Selected hour<select id="hourSelect"><option selected value="18">HE 18</option></select></label></div></section>
+  <section class="app-view" id="view-portfolio">
+    <div class="view-title"><div><span>Portfolio / PPAs</span><h2>Contracted supply portfolio</h2></div><p>See exactly what is covered, by whom, at what price and for which hours.</p></div>
+    <section class="kpi-grid four"><article class="kpi"><span>Contracted tomorrow</span><strong>1,356 MWh</strong><small>Across active agreements</small></article><article class="kpi"><span>Weighted contract price</span><strong>R876/MWh</strong><small>Illustrative blended rate</small></article><article class="kpi"><span>Renewable share</span><strong>62%</strong><small>Solar + wind contracts</small></article><article class="kpi attention"><span>Uncovered energy</span><strong>216 MWh</strong><small>Needs market action</small></article></section>
+    <section class="panel"><div class="panel-head"><div><h3>Active agreements</h3><p>Mock commercial contract register.</p></div><button class="mini-button">+ Add contract</button></div><div class="scroll"><table><thead><tr><th>Agreement</th><th>Type</th><th>Volume</th><th>Price</th><th>Period</th><th>Status</th></tr></thead><tbody><tr><td>SunPeak Solar PPA</td><td>Solar PPA</td><td>480 MWh/day</td><td>R760/MWh</td><td>2025–2035</td><td><span class="status-chip good">Active</span></td></tr><tr><td>Karoo Wind PPA</td><td>Wind PPA</td><td>360 MWh/day</td><td>R790/MWh</td><td>2026–2036</td><td><span class="status-chip good">Active</span></td></tr><tr><td>Utility Supply Agreement</td><td>Firm supply</td><td>516 MWh/day</td><td>R1,030/MWh</td><td>Annual</td><td><span class="status-chip good">Active</span></td></tr><tr><td>Battery Flex Option</td><td>Flexibility</td><td>80 MWh/day max</td><td>Variable</td><td>Monthly</td><td><span class="status-chip warn">Standby</span></td></tr></tbody></table></div></section>
+    <section class="two-col"><article class="panel"><h3>Coverage by hour</h3><p>Where contracted supply starts to fall short.</p><div class="coverage-list"><div><strong>HE01–HE06</strong><span>100% covered</span></div><div><strong>HE07–HE10</strong><span>92–98% covered</span></div><div class="danger"><strong>HE11–HE21</strong><span>64–89% covered</span></div><div><strong>HE22–HE24</strong><span>95–100% covered</span></div></div></article><article class="panel"><h3>Commercial insights</h3><div class="insight"><strong>Peak-hour hedge gap</strong><p>HE17–HE21 carries most of tomorrow's market exposure.</p></div><div class="insight"><strong>Renewable concentration</strong><p>55% of contracted energy depends on weather-sensitive sources.</p></div><div class="insight"><strong>Renewal opportunity</strong><p>Utility agreement review due in 46 days.</p></div></article></section>
+  </section>
 
-    <section class="selected-panel panel">
-      <div class="panel-head"><div><h3>HE18 · 17:00–18:00</h3><p id="selectedHourLabel">Peak trading period</p></div><span id="statusPill" class="pill short">SHORT</span></div>
-      <div class="position-grid four-up">
-        <div class="metric"><span>Forecast demand</span><strong id="demand">90 MWh</strong></div>
-        <div class="metric"><span>Contracted supply</span><strong id="contracted">55 MWh</strong></div>
-        <div class="metric"><span>Own generation</span><strong id="ownGen">2 MWh</strong></div>
-        <div class="metric highlight"><span>Open position</span><strong id="openPosition">33 MWh</strong></div>
-      </div>
-      <div id="decision" class="decision short">Action required: procure 33 MWh for HE18 before gate closure.</div>
-    </section>
+  <section class="app-view" id="view-market">
+    <div class="view-title"><div><span>Market Bids</span><h2>Day-Ahead trading desk</h2></div><p>Translate short positions into approved market actions.</p></div>
+    <section class="kpi-grid four"><article class="kpi attention"><span>Open requirement</span><strong>216 MWh</strong><small>14 trading periods</small></article><article class="kpi"><span>Bids prepared</span><strong>14</strong><small>12 ready · 2 need review</small></article><article class="kpi"><span>Expected spend</span><strong>R172,250</strong><small>Illustrative scenario</small></article><article class="kpi"><span>Highest bid cap</span><strong>R1,150/MWh</strong><small>Peak periods</small></article></section>
+    <section class="three-col"><article class="panel"><h3>HE18 seller stack</h3><div class="offer"><div><strong>Wind Farm B</strong><small>Wind</small></div><div>28 MWh</div><strong>R690</strong></div><div class="offer"><div><strong>Battery Operator C</strong><small>Battery</small></div><div>20 MWh</div><strong>R1,050</strong></div><div class="offer"><div><strong>Peaker D</strong><small>Flexible generation</small></div><div>15 MWh</div><strong>R1,180</strong></div></article><article class="panel"><h3>Recommended HE18 bid</h3><div class="bid-box"><small>BUY</small><div class="big">33 MWh</div><div class="bid-details"><div><small>Bid cap</small><strong>R1,150/MWh</strong></div><div><small>Approval</small><strong>Required</strong></div></div></div><button id="approveBid">Approve mock bid</button></article><article class="panel"><h3>Latest mock result</h3><div class="result-ok"><div class="result-grid"><div><small>Accepted</small><strong>33 MWh</strong></div><div><small>MCP</small><strong>R1,050/MWh</strong></div><div><small>Cost</small><strong>R34,650</strong></div><div><small>Status</small><strong>CLEARED</strong></div></div></div></article></section>
+    <section class="panel"><h3>Bid register</h3><div class="scroll"><table><thead><tr><th>Hour</th><th>Position</th><th>Bid volume</th><th>Cap</th><th>Workflow</th><th>Market result</th></tr></thead><tbody id="bidRows"></tbody></table></div></section>
+  </section>
 
-    <section class="three-col action-grid">
-      <section class="panel">
-        <div class="panel-head"><div><h3>Available seller stack</h3><p>Illustrative eligible offers for HE18.</p></div><span class="tiny-tag">3 offers</span></div>
-        <div id="sellerStack">
-          <div class="offer"><div><strong>Wind Farm B</strong><br><small>Wind · TU-WIND-B-01</small></div><div>28 MWh</div><div class="price">R690/MWh</div></div>
-          <div class="offer"><div><strong>Battery Operator C</strong><br><small>Battery · TU-BATTERY-C-01</small></div><div>20 MWh</div><div class="price">R1,050/MWh</div></div>
-          <div class="offer"><div><strong>Peaker D</strong><br><small>Flexible generation</small></div><div>15 MWh</div><div class="price">R1,180/MWh</div></div>
-        </div>
-      </section>
+  <section class="app-view" id="view-settlement">
+    <div class="view-title"><div><span>Settlement</span><h2>Schedule, meter and financial reconciliation</h2></div><p>Track what was scheduled, what was actually consumed and what it may cost.</p></div>
+    <section class="kpi-grid four"><article class="kpi"><span>Scheduled energy</span><strong>1,518 MWh</strong><small>Day-Ahead + contracts</small></article><article class="kpi"><span>Metered actual</span><strong>1,526 MWh</strong><small>Illustrative final actual</small></article><article class="kpi attention"><span>Net imbalance</span><strong>+8 MWh</strong><small>Over-consumed</small></article><article class="kpi"><span>Est. imbalance exposure</span><strong>R10,400</strong><small>@ R1,300/MWh</small></article></section>
+    <section class="two-col"><article class="panel"><h3>Reconciliation exceptions</h3><div class="exception"><span>HE18</span><div><strong>+2.2 MWh over-consumed</strong><small>R2,860 estimated exposure</small></div></div><div class="exception"><span>HE19</span><div><strong>+4.1 MWh over-consumed</strong><small>R5,330 estimated exposure</small></div></div><div class="exception ok"><span>HE20</span><div><strong>Within tolerance</strong><small>+0.3 MWh</small></div></div></article><article class="panel"><h3>Financial summary</h3><div class="finance-row"><span>Bilateral contracts</span><strong>R1,188,000</strong></div><div class="finance-row"><span>Day-Ahead purchases</span><strong>R172,250</strong></div><div class="finance-row"><span>Estimated imbalance</span><strong>R10,400</strong></div><div class="finance-row total"><span>Expected energy cost</span><strong>R1,370,650</strong></div></article></section>
+    <section class="panel"><h3>Hourly settlement register</h3><div class="scroll"><table><thead><tr><th>Hour</th><th>Schedule</th><th>Actual</th><th>Imbalance</th><th>Price</th><th>Exposure</th></tr></thead><tbody><tr><td>HE18</td><td>90.0</td><td>92.2</td><td class="status-short">+2.2</td><td>R1,300</td><td>R2,860</td></tr><tr><td>HE19</td><td>92.0</td><td>96.1</td><td class="status-short">+4.1</td><td>R1,300</td><td>R5,330</td></tr><tr><td>HE20</td><td>88.0</td><td>88.3</td><td>+0.3</td><td>R1,300</td><td>R390</td></tr></tbody></table></div></section>
+  </section>
 
-      <section class="panel">
-        <h3>Recommended market bid</h3><p>Generated from open position, price policy and risk limits.</p>
-        <div id="bidCard"><div class="bid-box"><small>BUY</small><div class="big">33 MWh</div><div class="bid-details"><div><small>Trading period</small><br><strong>HE18</strong></div><div><small>Maximum bid price</small><br><strong>R1,150/MWh</strong></div><div><small>Estimated worst case</small><br><strong>R37,950</strong></div><div><small>Approval</small><br><strong>Required</strong></div></div></div></div>
-        <button id="clearBtn">Re-run mock market clearing</button>
-      </section>
+  <section class="app-view" id="view-risk">
+    <div class="view-title"><div><span>Risk</span><h2>Credit, market and operational exposure</h2></div><p>See the risks that could stop or increase the cost of participation.</p></div>
+    <section class="kpi-grid four"><article class="kpi"><span>Collateral utilised</span><strong>38%</strong><small>R1.9m / R5.0m</small></article><article class="kpi"><span>Available headroom</span><strong>R3.1m</strong><small>Current credit capacity</small></article><article class="kpi attention"><span>Peak stress exposure</span><strong>R286k</strong><small>Price + demand stress</small></article><article class="kpi"><span>Forecast accuracy</span><strong>97.4%</strong><small>30-day rolling</small></article></section>
+    <section class="risk-grid"><article class="panel"><h3>Risk alerts</h3><div class="risk-list"><div><span class="sev high">High</span><div><strong>HE19 demand increased</strong><small>+4.2 MWh since forecast v3</small></div></div><div><span class="sev med">Medium</span><div><strong>Solar forecast reduced</strong><small>HE15–HE17 affected by cloud cover</small></div></div><div><span class="sev low">Info</span><div><strong>Meter feed healthy</strong><small>Last reading 2 minutes ago</small></div></div></div></article><article class="panel"><h3>Collateral utilisation</h3><div class="gauge"><div class="gauge-fill" style="width:38%"></div></div><div class="gauge-labels"><strong>R1.9m utilised</strong><span>R5.0m limit</span></div><div class="risk-stats"><div><span>Current DA exposure</span><strong>R172k</strong></div><div><span>Stress exposure</span><strong>R286k</strong></div><div><span>Remaining headroom</span><strong>R3.1m</strong></div></div></article><article class="panel"><h3>Control status</h3><div class="control-item good"><strong>Participant identifiers</strong><span>Complete</span></div><div class="control-item good"><strong>Trading-unit mapping</strong><span>Complete</span></div><div class="control-item warn"><strong>HE19 approval</strong><span>Pending</span></div><div class="control-item good"><strong>Meter integration</strong><span>Healthy</span></div></article></section>
+  </section>
 
-      <section class="panel market-result-panel">
-        <div class="panel-head"><div><h3>Latest mock market result</h3><p>What the buyer would see after the market clears.</p></div><span class="pill covered">CLEARED</span></div>
-        <div id="result" class="result-ok"><div class="result-grid"><div><small>Requested</small><br><strong>33 MWh</strong></div><div><small>Accepted</small><br><strong>33 MWh</strong></div><div><small>Simulated MCP</small><br><strong>R1,050/MWh</strong></div><div><small>Market cost</small><br><strong>R34,650</strong></div></div><div class="accepted-list"><strong>Matched supply</strong><br>Wind Farm B: 28 MWh @ R690<br>Battery Operator C: 5 MWh @ R1,050</div></div>
-      </section>
-    </section>
-
-    <section class="section-head"><div><div class="kicker">Risk, delivery & finance</div><h2>After clearing, the job is not finished</h2></div></section>
-    <section class="risk-grid">
-      <section class="panel">
-        <h3>Operational alerts</h3>
-        <div class="risk-list"><div><span class="sev high">High</span><div><strong>HE19 demand forecast increased</strong><small>+4.2 MWh since forecast v3 · review bid volume</small></div></div><div><span class="sev med">Medium</span><div><strong>Own solar forecast reduced</strong><small>Cloud cover lowered HE15–HE17 expected output</small></div></div><div><span class="sev low">Info</span><div><strong>Meter feed healthy</strong><small>Last reading received 2 min ago</small></div></div></div>
-      </section>
-      <section class="panel">
-        <h3>Collateral & exposure</h3>
-        <div class="gauge"><div class="gauge-fill" style="width:38%"></div></div>
-        <div class="gauge-labels"><strong>R1.9m utilised</strong><span>R5.0m limit</span></div>
-        <div class="risk-stats"><div><span>Available headroom</span><strong>R3.1m</strong></div><div><span>Tomorrow DA exposure</span><strong>R172k</strong></div><div><span>Stress exposure</span><strong>R286k</strong></div></div>
-      </section>
-      <section class="panel">
-        <h3>Settlement preview</h3>
-        <div id="reconciliationResult" class="settlement-result"><div class="settlement-card"><span>Scheduled</span><strong>33.0 MWh</strong></div><div class="settlement-card"><span>Actual meter</span><strong>35.2 MWh</strong></div><div class="settlement-card alert"><span>Imbalance</span><strong>+2.2 MWh</strong><small>Over-consumed</small></div><div class="settlement-card alert"><span>Est. imbalance exposure</span><strong>R2,860</strong><small>Illustrative R1,300/MWh</small></div></div>
-        <div class="hidden-form"><input id="scheduledInput" value="33"><input id="actualInput" value="35.2"><input id="imbalancePriceInput" value="1300"><button id="reconcileBtn">Calculate</button></div>
-      </section>
-    </section>
-
-    <section class="section-head"><div><div class="kicker">Daily trading schedule</div><h2>24-hour action register</h2><p class="section-copy">The buyer can see every trading period, current cover, open position and required action in one operational table.</p></div></section>
-    <section class="panel table-panel"><div class="scroll"><table><thead><tr><th>Hour</th><th>Demand</th><th>Contracted</th><th>Own Gen</th><th>Open position</th><th>Status</th></tr></thead><tbody id="positionTable"><tr><td>HE17</td><td>86 MWh</td><td>55 MWh</td><td>6 MWh</td><td>25 MWh</td><td class="status-short">SHORT</td></tr><tr><td>HE18</td><td>90 MWh</td><td>55 MWh</td><td>2 MWh</td><td>33 MWh</td><td class="status-short">SHORT</td></tr><tr><td>HE19</td><td>92 MWh</td><td>55 MWh</td><td>0 MWh</td><td>37 MWh</td><td class="status-short">SHORT</td></tr></tbody></table></div></section>
-
-    <section class="module-section">
-      <div class="section-head"><div><div class="kicker">Full product vision</div><h2>One buyer dashboard becomes an operating platform</h2></div></section>
-      <section class="module-grid"><article><span>01</span><h3>Forecasting</h3><p>Hourly demand and generation forecasting with accuracy tracking.</p></article><article><span>02</span><h3>Contracts & PPAs</h3><p>Know exactly what is already covered by each bilateral contract.</p></article><article><span>03</span><h3>Position Management</h3><p>Calculate open exposure continuously across every trading period.</p></article><article><span>04</span><h3>Bid Operations</h3><p>Recommend, validate, approve and eventually submit market bids.</p></article><article><span>05</span><h3>Risk & Collateral</h3><p>Credit headroom, price limits, stress exposure and operational alerts.</p></article><article><span>06</span><h3>Meter & Settlement</h3><p>Schedule-to-actual reconciliation and expected settlement costs.</p></article><article><span>07</span><h3>Executive Reporting</h3><p>Energy spend, savings, portfolio mix and market performance.</p></article><article><span>08</span><h3>SAWEM Connectivity</h3><p>Adapter for official interfaces once NTCSA specifications are confirmed.</p></article></section>
-    </section>
-
-    <section class="closing"><div><div class="kicker">Product thesis</div><h2>SAWEM runs the market. This software runs the buyer's participation.</h2><p>The dashboard is not only for bid submission. It gives procurement, operations, treasury and energy teams one view of what is covered, what is exposed, what action is required and what the financial consequence could be.</p></div><div class="closing-badge">Buyer cockpit<br><strong>v0.3</strong></div></section>
-    <section class="notice bottom-note"><strong>Prototype disclaimer:</strong> fictional data and simplified market logic are used to demonstrate a potential user experience. This is not an official SAWEM interface or market result.</section>
-  </main>
-  <script src="demo.js"></script>
+  <section class="prototype-note"><strong>Product thesis:</strong> SAWEM runs the market. This platform runs the participant — portfolio, position, bids, risk, delivery and settlement.</section>
+</main>
+<script src="demo.js"></script>
 </body>
 </html>
